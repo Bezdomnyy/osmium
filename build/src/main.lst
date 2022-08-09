@@ -1,0 +1,361 @@
+GAS LISTING /tmp/ccQ6JXQa.s 			page 1
+
+
+   1              		.file	"main.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.section	.rodata.str1.8,"aMS",@progbits,1
+   7              		.align	3
+   8              	.LC0:
+   9 0000 506F7275 		.string	"Poruka!\n"
+   9      6B61210A 
+   9      00
+  10              		.text
+  11              		.align	2
+  12              		.globl	handleSupervisorTrap
+  14              	handleSupervisorTrap:
+  15              	.LFB0:
+  16              		.file 1 "src/main.cpp"
+   1:src/main.cpp  **** #include "../lib/console.h"
+   2:src/main.cpp  **** #include "../lib/hw.h"
+   3:src/main.cpp  **** 
+   4:src/main.cpp  **** uint64 timerCount = 0;
+   5:src/main.cpp  **** 
+   6:src/main.cpp  **** extern "C" void handleSupervisorTrap() {
+  17              		.loc 1 6 40
+  18              		.cfi_startproc
+  19 0000 130101FC 		addi	sp,sp,-64
+  20              		.cfi_def_cfa_offset 64
+  21 0004 233C1102 		sd	ra,56(sp)
+  22 0008 23388102 		sd	s0,48(sp)
+  23 000c 23349102 		sd	s1,40(sp)
+  24              		.cfi_offset 1, -8
+  25              		.cfi_offset 8, -16
+  26              		.cfi_offset 9, -24
+  27 0010 13040104 		addi	s0,sp,64
+  28              		.cfi_def_cfa 8, 0
+   7:src/main.cpp  ****     volatile uint64 scauseVal;
+  29              		.loc 1 7 5
+   8:src/main.cpp  ****     asm volatile ("csrr %[cause], scause": [cause] "=r" (scauseVal));
+  30              		.loc 1 8 5
+  31              		.loc 1 8 69 is_stmt 0
+  32              	#APP
+  33              	# 8 "src/main.cpp" 1
+   9              	    char word[9] = "Poruka!\n";
+  34              		csrr a5, scause
+  35              	# 0 "" 2
+  36              	#NO_APP
+  37 0018 233CF4FC 		sd	a5,-40(s0)
+  38              		.loc 1 9 5 is_stmt 1
+  39              		.loc 1 9 10 is_stmt 0
+  40 001c 97070000 		lla	a5,.LC0
+  40      93870700 
+  41 0024 03B70700 		ld	a4,0(a5)
+  42 0028 2334E4FC 		sd	a4,-56(s0)
+  43 002c 83C78700 		lbu	a5,8(a5)
+  44 0030 2308F4FC 		sb	a5,-48(s0)
+  10:src/main.cpp  ****     int cnt = 8;
+  45              		.loc 1 10 5 is_stmt 1
+GAS LISTING /tmp/ccQ6JXQa.s 			page 2
+
+
+  46              	.LVL0:
+  11:src/main.cpp  ****     if (scauseVal == (0x01UL << 63 | 0x01)) {
+  47              		.loc 1 11 5
+  48              	.LBB2:
+  49              		.loc 1 11 19 is_stmt 0
+  50 0034 033784FD 		ld	a4,-40(s0)
+  51              		.loc 1 11 5
+  52 0038 9307F0FF 		li	a5,-1
+  53 003c 9397F703 		slli	a5,a5,63
+  54 0040 93871700 		addi	a5,a5,1
+  55 0044 6300F702 		beq	a4,a5,.L7
+  56              	.L2:
+  57              	.LBE2:
+  12:src/main.cpp  ****         if (++timerCount >= 50) {
+  13:src/main.cpp  ****             for (int i = 0; i < cnt; i++) {
+  14:src/main.cpp  ****                 __putc(word[i]);
+  15:src/main.cpp  ****             }
+  16:src/main.cpp  ****             timerCount = 0;
+  17:src/main.cpp  ****         }
+  18:src/main.cpp  **** 
+  19:src/main.cpp  ****         asm volatile ("csrc sip, 0x02");
+  20:src/main.cpp  ****     }
+  21:src/main.cpp  ****     console_handler();
+  58              		.loc 1 21 5 is_stmt 1
+  59              		.loc 1 21 20 is_stmt 0
+  60 0048 97000000 		call	console_handler@plt
+  60      E7800000 
+  61              	.LVL1:
+  22:src/main.cpp  **** }
+  62              		.loc 1 22 1
+  63 0050 83308103 		ld	ra,56(sp)
+  64              		.cfi_remember_state
+  65              		.cfi_restore 1
+  66 0054 03340103 		ld	s0,48(sp)
+  67              		.cfi_restore 8
+  68              		.cfi_def_cfa 2, 64
+  69 0058 83348102 		ld	s1,40(sp)
+  70              		.cfi_restore 9
+  71 005c 13010104 		addi	sp,sp,64
+  72              		.cfi_def_cfa_offset 0
+  73 0060 67800000 		jr	ra
+  74              	.L7:
+  75              		.cfi_restore_state
+  76              	.LBB7:
+  77              	.LBB3:
+  12:src/main.cpp  ****         if (++timerCount >= 50) {
+  78              		.loc 1 12 9 is_stmt 1
+  79              	.LBB4:
+  12:src/main.cpp  ****         if (++timerCount >= 50) {
+  80              		.loc 1 12 13 is_stmt 0
+  81 0064 17070000 		lla	a4,.LANCHOR0
+  81      13070700 
+  82 006c 83370700 		ld	a5,0(a4)
+  83 0070 93871700 		addi	a5,a5,1
+  12:src/main.cpp  ****         if (++timerCount >= 50) {
+  84              		.loc 1 12 26
+  85 0074 2330F700 		sd	a5,0(a4)
+GAS LISTING /tmp/ccQ6JXQa.s 			page 3
+
+
+  12:src/main.cpp  ****         if (++timerCount >= 50) {
+  86              		.loc 1 12 9
+  87 0078 13071003 		li	a4,49
+  88 007c 637AF702 		bleu	a5,a4,.L3
+  89              	.LBB5:
+  90              	.LBB6:
+  13:src/main.cpp  ****                 __putc(word[i]);
+  91              		.loc 1 13 22
+  92 0080 93040000 		li	s1,0
+  93 0084 6F00C001 		j	.L5
+  94              	.LVL2:
+  95              	.L8:
+  14:src/main.cpp  ****             }
+  96              		.loc 1 14 17 is_stmt 1
+  14:src/main.cpp  ****             }
+  97              		.loc 1 14 23 is_stmt 0
+  98 0088 930704FE 		addi	a5,s0,-32
+  99 008c B3879700 		add	a5,a5,s1
+ 100 0090 03C587FE 		lbu	a0,-24(a5)
+ 101 0094 97000000 		call	__putc@plt
+ 101      E7800000 
+ 102              	.LVL3:
+  13:src/main.cpp  ****                 __putc(word[i]);
+ 103              		.loc 1 13 13 is_stmt 1
+ 104 009c 9B841400 		addiw	s1,s1,1
+ 105              	.LVL4:
+ 106              	.L5:
+  13:src/main.cpp  ****                 __putc(word[i]);
+ 107              		.loc 1 13 31 discriminator 1
+ 108 00a0 93077000 		li	a5,7
+ 109 00a4 E3D297FE 		ble	s1,a5,.L8
+ 110              	.LBE6:
+  16:src/main.cpp  ****         }
+ 111              		.loc 1 16 13
+  16:src/main.cpp  ****         }
+ 112              		.loc 1 16 24 is_stmt 0
+ 113 00a8 97070000 		sd	zero,.LANCHOR0,a5
+ 113      23B00700 
+ 114              	.LVL5:
+ 115              	.L3:
+ 116              	.LBE5:
+ 117              	.LBE4:
+  19:src/main.cpp  ****     }
+ 118              		.loc 1 19 9 is_stmt 1
+  19:src/main.cpp  ****     }
+ 119              		.loc 1 19 40 is_stmt 0
+ 120              	#APP
+ 121              	# 19 "src/main.cpp" 1
+ 122              		csrc sip, 0x02
+ 123              	# 0 "" 2
+ 124              	#NO_APP
+ 125              	.LBE3:
+ 126 00b4 6FF05FF9 		j	.L2
+ 127              	.LBE7:
+ 128              		.cfi_endproc
+ 129              	.LFE0:
+ 131              		.align	2
+GAS LISTING /tmp/ccQ6JXQa.s 			page 4
+
+
+ 132              		.globl	main
+ 134              	main:
+ 135              	.LFB1:
+  23:src/main.cpp  **** 
+  24:src/main.cpp  **** extern "C" void supervisorTrap();
+  25:src/main.cpp  **** 
+  26:src/main.cpp  **** 
+  27:src/main.cpp  **** void main() {
+ 136              		.loc 1 27 13 is_stmt 1
+ 137              		.cfi_startproc
+ 138 00b8 130101FF 		addi	sp,sp,-16
+ 139              		.cfi_def_cfa_offset 16
+ 140 00bc 23348100 		sd	s0,8(sp)
+ 141              		.cfi_offset 8, -8
+ 142 00c0 13040101 		addi	s0,sp,16
+ 143              		.cfi_def_cfa 8, 0
+  28:src/main.cpp  ****     asm volatile("csrw stvec, %[trapVector]" : : [trapVector] "r" (&supervisorTrap));
+ 144              		.loc 1 28 5
+ 145              		.loc 1 28 85 is_stmt 0
+ 146 00c4 97070000 		la	a5,supervisorTrap
+ 146      83B70700 
+ 147              	#APP
+ 148              	# 28 "src/main.cpp" 1
+  29              	    asm volatile("csrs sstatus, 0x02");
+ 149              		csrw stvec, a5
+ 150              	# 0 "" 2
+ 151              		.loc 1 29 5 is_stmt 1
+ 152              		.loc 1 29 39 is_stmt 0
+ 153              	# 29 "src/main.cpp" 1
+  30              	    while(1);
+ 154              		csrs sstatus, 0x02
+ 155              	# 0 "" 2
+ 156              	#NO_APP
+ 157              	.L10:
+ 158              		.loc 1 30 5 is_stmt 1 discriminator 1
+ 159              		.loc 1 30 5 discriminator 1
+ 160 00d4 6F000000 		j	.L10
+ 161              		.cfi_endproc
+ 162              	.LFE1:
+ 164              		.globl	timerCount
+ 165              		.bss
+ 166              		.align	3
+ 167              		.set	.LANCHOR0,. + 0
+ 170              	timerCount:
+ 171 0000 00000000 		.zero	8
+ 171      00000000 
+ 172              		.text
+ 173              	.Letext0:
+ 174              		.file 2 "src/../lib/hw.h"
+ 175              		.file 3 "src/../lib/console.h"
+GAS LISTING /tmp/ccQ6JXQa.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.cpp
+     /tmp/ccQ6JXQa.s:14     .text:0000000000000000 handleSupervisorTrap
+     /tmp/ccQ6JXQa.s:18     .text:0000000000000000 .L0 
+     /tmp/ccQ6JXQa.s:19     .text:0000000000000000 .L0 
+     /tmp/ccQ6JXQa.s:20     .text:0000000000000004 .L0 
+     /tmp/ccQ6JXQa.s:24     .text:0000000000000010 .L0 
+     /tmp/ccQ6JXQa.s:25     .text:0000000000000010 .L0 
+     /tmp/ccQ6JXQa.s:26     .text:0000000000000010 .L0 
+     /tmp/ccQ6JXQa.s:28     .text:0000000000000014 .L0 
+     /tmp/ccQ6JXQa.s:30     .text:0000000000000014 .L0 
+     /tmp/ccQ6JXQa.s:31     .text:0000000000000014 .L0 
+        src/main.cpp:8      .text:0000000000000014 .L0 
+     /tmp/ccQ6JXQa.s:39     .text:000000000000001c .L0 
+     /tmp/ccQ6JXQa.s:40     .text:000000000000001c .L0 
+     /tmp/ccQ6JXQa.s:47     .text:0000000000000034 .L0 
+     /tmp/ccQ6JXQa.s:49     .text:0000000000000034 .L0 
+     /tmp/ccQ6JXQa.s:50     .text:0000000000000034 .L0 
+     /tmp/ccQ6JXQa.s:52     .text:0000000000000038 .L0 
+     /tmp/ccQ6JXQa.s:59     .text:0000000000000048 .L0 
+     /tmp/ccQ6JXQa.s:60     .text:0000000000000048 .L0 
+     /tmp/ccQ6JXQa.s:63     .text:0000000000000050 .L0 
+     /tmp/ccQ6JXQa.s:64     .text:0000000000000054 .L0 
+     /tmp/ccQ6JXQa.s:65     .text:0000000000000054 .L0 
+     /tmp/ccQ6JXQa.s:67     .text:0000000000000058 .L0 
+     /tmp/ccQ6JXQa.s:68     .text:0000000000000058 .L0 
+     /tmp/ccQ6JXQa.s:70     .text:000000000000005c .L0 
+     /tmp/ccQ6JXQa.s:72     .text:0000000000000060 .L0 
+     /tmp/ccQ6JXQa.s:75     .text:0000000000000064 .L0 
+     /tmp/ccQ6JXQa.s:80     .text:0000000000000064 .L0 
+     /tmp/ccQ6JXQa.s:81     .text:0000000000000064 .L0 
+     /tmp/ccQ6JXQa.s:85     .text:0000000000000074 .L0 
+     /tmp/ccQ6JXQa.s:87     .text:0000000000000078 .L0 
+     /tmp/ccQ6JXQa.s:92     .text:0000000000000080 .L0 
+     /tmp/ccQ6JXQa.s:97     .text:0000000000000088 .L0 
+     /tmp/ccQ6JXQa.s:98     .text:0000000000000088 .L0 
+     /tmp/ccQ6JXQa.s:104    .text:000000000000009c .L0 
+     /tmp/ccQ6JXQa.s:108    .text:00000000000000a0 .L0 
+     /tmp/ccQ6JXQa.s:112    .text:00000000000000a8 .L0 
+     /tmp/ccQ6JXQa.s:113    .text:00000000000000a8 .L0 
+     /tmp/ccQ6JXQa.s:119    .text:00000000000000b0 .L0 
+        src/main.cpp:19     .text:00000000000000b0 .L0 
+     /tmp/ccQ6JXQa.s:128    .text:00000000000000b8 .L0 
+     /tmp/ccQ6JXQa.s:134    .text:00000000000000b8 main
+     /tmp/ccQ6JXQa.s:137    .text:00000000000000b8 .L0 
+     /tmp/ccQ6JXQa.s:138    .text:00000000000000b8 .L0 
+     /tmp/ccQ6JXQa.s:139    .text:00000000000000bc .L0 
+     /tmp/ccQ6JXQa.s:141    .text:00000000000000c0 .L0 
+     /tmp/ccQ6JXQa.s:143    .text:00000000000000c4 .L0 
+     /tmp/ccQ6JXQa.s:145    .text:00000000000000c4 .L0 
+     /tmp/ccQ6JXQa.s:146    .text:00000000000000c4 .L0 
+     /tmp/ccQ6JXQa.s:152    .text:00000000000000d0 .L0 
+        src/main.cpp:29     .text:00000000000000d0 .L0 
+     /tmp/ccQ6JXQa.s:159    .text:00000000000000d4 .L0 
+     /tmp/ccQ6JXQa.s:160    .text:00000000000000d4 .L0 
+     /tmp/ccQ6JXQa.s:161    .text:00000000000000d8 .L0 
+     /tmp/ccQ6JXQa.s:170    .bss:0000000000000000 timerCount
+GAS LISTING /tmp/ccQ6JXQa.s 			page 6
+
+
+     /tmp/ccQ6JXQa.s:167    .bss:0000000000000000 .LANCHOR0
+     /tmp/ccQ6JXQa.s:176    .text:00000000000000d8 .L0 
+     /tmp/ccQ6JXQa.s:8      .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccQ6JXQa.s:40     .text:000000000000001c .L0 
+     /tmp/ccQ6JXQa.s:81     .text:0000000000000064 .L0 
+     /tmp/ccQ6JXQa.s:113    .text:00000000000000a8 .L0 
+     /tmp/ccQ6JXQa.s:146    .text:00000000000000c4 .L0 
+     /tmp/ccQ6JXQa.s:74     .text:0000000000000064 .L7
+     /tmp/ccQ6JXQa.s:115    .text:00000000000000b0 .L3
+     /tmp/ccQ6JXQa.s:106    .text:00000000000000a0 .L5
+     /tmp/ccQ6JXQa.s:95     .text:0000000000000088 .L8
+     /tmp/ccQ6JXQa.s:56     .text:0000000000000048 .L2
+     /tmp/ccQ6JXQa.s:157    .text:00000000000000d4 .L10
+     /tmp/ccQ6JXQa.s:416    .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccQ6JXQa.s:776    .debug_str:0000000000000022 .LASF23
+     /tmp/ccQ6JXQa.s:820    .debug_str:00000000000001f6 .LASF24
+     /tmp/ccQ6JXQa.s:790    .debug_str:0000000000000114 .LASF25
+     /tmp/ccQ6JXQa.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccQ6JXQa.s:173    .text:00000000000000d8 .Letext0
+     /tmp/ccQ6JXQa.s:770    .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccQ6JXQa.s:774    .debug_str:0000000000000015 .LASF0
+     /tmp/ccQ6JXQa.s:816    .debug_str:00000000000001d3 .LASF1
+     /tmp/ccQ6JXQa.s:802    .debug_str:000000000000016a .LASF2
+     /tmp/ccQ6JXQa.s:794    .debug_str:0000000000000147 .LASF4
+     /tmp/ccQ6JXQa.s:786    .debug_str:00000000000000f8 .LASF3
+     /tmp/ccQ6JXQa.s:782    .debug_str:00000000000000e1 .LASF5
+     /tmp/ccQ6JXQa.s:792    .debug_str:0000000000000134 .LASF6
+     /tmp/ccQ6JXQa.s:814    .debug_str:00000000000001c0 .LASF7
+     /tmp/ccQ6JXQa.s:824    .debug_str:0000000000000212 .LASF8
+     /tmp/ccQ6JXQa.s:778    .debug_str:00000000000000c4 .LASF9
+     /tmp/ccQ6JXQa.s:780    .debug_str:00000000000000d2 .LASF10
+     /tmp/ccQ6JXQa.s:822    .debug_str:0000000000000203 .LASF11
+     /tmp/ccQ6JXQa.s:784    .debug_str:00000000000000e8 .LASF12
+     /tmp/ccQ6JXQa.s:818    .debug_str:00000000000001e6 .LASF13
+     /tmp/ccQ6JXQa.s:800    .debug_str:000000000000015e .LASF14
+     /tmp/ccQ6JXQa.s:810    .debug_str:000000000000019a .LASF15
+     /tmp/ccQ6JXQa.s:808    .debug_str:0000000000000184 .LASF16
+     /tmp/ccQ6JXQa.s:796    .debug_str:000000000000014e .LASF17
+     /tmp/ccQ6JXQa.s:804    .debug_str:0000000000000178 .LASF26
+     /tmp/ccQ6JXQa.s:135    .text:00000000000000b8 .LFB1
+     /tmp/ccQ6JXQa.s:162    .text:00000000000000d8 .LFE1
+     /tmp/ccQ6JXQa.s:772    .debug_str:0000000000000000 .LASF27
+     /tmp/ccQ6JXQa.s:15     .text:0000000000000000 .LFB0
+     /tmp/ccQ6JXQa.s:129    .text:00000000000000b8 .LFE0
+     /tmp/ccQ6JXQa.s:788    .debug_str:000000000000010a .LASF18
+     /tmp/ccQ6JXQa.s:826    .debug_str:0000000000000222 .LASF19
+     /tmp/ccQ6JXQa.s:90     .text:0000000000000080 .LBB6
+     /tmp/ccQ6JXQa.s:110    .text:00000000000000a8 .LBE6
+     /tmp/ccQ6JXQa.s:750    .debug_loc:0000000000000000 .LLST0
+     /tmp/ccQ6JXQa.s:102    .text:000000000000009c .LVL3
+     /tmp/ccQ6JXQa.s:61     .text:0000000000000050 .LVL1
+     /tmp/ccQ6JXQa.s:798    .debug_str:0000000000000159 .LASF20
+     /tmp/ccQ6JXQa.s:806    .debug_str:000000000000017d .LASF21
+     /tmp/ccQ6JXQa.s:812    .debug_str:00000000000001b0 .LASF22
+     /tmp/ccQ6JXQa.s:94     .text:0000000000000088 .LVL2
+     /tmp/ccQ6JXQa.s:114    .text:00000000000000b0 .LVL5
+     /tmp/ccQ6JXQa.s:177    .debug_info:0000000000000000 .Ldebug_info0
+GAS LISTING /tmp/ccQ6JXQa.s 			page 7
+
+
+
+UNDEFINED SYMBOLS
+console_handler
+__putc
+supervisorTrap
