@@ -8,7 +8,7 @@
 
 #include "../lib/hw.h"
 
-class RiscV{
+class RiscV {
 public:
     //push x3...x31 registers on stack
     static void pushRegisters();
