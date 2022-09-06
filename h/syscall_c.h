@@ -6,7 +6,7 @@
 #define OSMIUM_SYSCALL_C_H
 
 //0x01
-void *mem_alloc(size_t size);
+extern "C" void *mem_alloc(size_t size);
 /* Alocira (najmanje) size bajtova memorije, zaokruženo
  * i poravnato na blokove veličine MEM_BLOCK_SIZE.
  * Vraća pokazivač na alocirani deo memorije u slučaju uspeha,

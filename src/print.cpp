@@ -2,7 +2,7 @@
 // Created by os on 9/6/22.
 //
 
-#include "../h/print.hpp"
+#include "../h/print.h"
 #include "../lib/console.h"
 
 void printString(char const *string) {

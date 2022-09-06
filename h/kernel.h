@@ -8,6 +8,7 @@
 
 class Kernel {
 public:
+    static void initKernel();
     static void supervisorTrap();
 private:
     static void supervisorTrapHandler();
