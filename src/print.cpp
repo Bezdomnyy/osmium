@@ -3,6 +3,7 @@
 //
 
 #include "../h/print.h"
+#include "../h/riscv.h"
 #include "../lib/console.h"
 
 void printString(char const *string) {

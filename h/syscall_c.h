@@ -5,6 +5,9 @@
 #ifndef OSMIUM_SYSCALL_C_H
 #define OSMIUM_SYSCALL_C_H
 
+#include "../lib/hw.h"
+//using size_t = decltype(sizeof(0));
+
 //0x01
 extern "C" void *mem_alloc(size_t size);
 /* Alocira (najmanje) size bajtova memorije, zaokruženo
@@ -18,7 +21,7 @@ extern "C" void *mem_alloc(size_t size);
 
 
 //0x02
-int mem_free(void *);
+extern "C" int mem_free(void *);
 /* Oslobađa prostor prethodno zauzet pomoću mem_alloc.
  * Vraća 0 u slučaju uspeha, negativnu vrednost u slučaju greške (kôd greške).
  * Argument mora imati vrednost vraćenu iz mem_alloc.

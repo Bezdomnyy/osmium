@@ -60,7 +60,7 @@ public:
     {
         SSIP = (1 << 1), //supervisor software interrupt pending
         STIP = (1 << 5), //supervisor timer interrupt pending
-                         // (tajmer je konfigurisan da baca software interrupt tako da se ovo ne koristi)
+                         //(timer is configured to throw a software interrupt, so this is not used)
         SEIP = (1 << 9), //supervisor external interrupt pending
     };
 
