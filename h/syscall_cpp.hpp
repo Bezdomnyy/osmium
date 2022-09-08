@@ -2,8 +2,8 @@
 // Created by os on 8/10/22.
 //
 
-#ifndef OSMIUM_SYSCALL_CPP_H
-#define OSMIUM_SYSCALL_CPP_H
+#ifndef OSMIUM_SYSCALL_CPP_HPP
+#define OSMIUM_SYSCALL_CPP_HPP
 
 void *::operator new(size_t);
 
@@ -62,4 +62,4 @@ public:
     static void putc(char);
 };
 
-#endif //OSMIUM_SYSCALL_CPP_H
+#endif //OSMIUM_SYSCALL_CPP_HPP
