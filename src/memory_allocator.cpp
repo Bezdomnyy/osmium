@@ -35,7 +35,7 @@ void MemoryAllocator::free(void* addr) {
 
 void MemoryAllocator::initMem()  {
     fMemHead = (FreeMem*)HEAP_START_ADDR;
-    fMemHead->size = ((size_t)HEAP_START_ADDR- (size_t)HEAP_END_ADDR);
+    fMemHead->size = (size_t) ((uint64)HEAP_END_ADDR - (uint64)HEAP_START_ADDR );
     /*fMemHead->prev = fMemHead;
     fMemHead->next = fMemHead;*/
     fMemHead->prev = nullptr;

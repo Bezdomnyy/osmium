@@ -9,10 +9,17 @@
 
 void main() {
     Kernel::initKernel();
-    //int* i = /*(int*) mem_alloc(sizeof(int));*/ (int*)((uint64)HEAP_START_ADDR + 1);
-    //int* i = (int*)MemoryAllocator::allocate(sizeof(int));
-    int* i = (int*) mem_alloc(sizeof(int));
-    *i = 48;
-    __putc(*i);
-    mem_free(i);
+    printString("Here");
+    int *a = new int[100000000];
+    //a[0] = 48; a[1] = 49; a[2] = 50; a[3] = 51; a[4] = 52;
+    for (int i = 0; i < 5; i++)
+        __putc(a[i]);
+
+    printString("Here");
+    delete[] a;
+    int *b = (int*) mem_alloc(sizeof (int));
+    *b = 48;
+    printString("Here");
+    __putc(*b);
+    mem_free(b);
 }
