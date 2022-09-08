@@ -14,7 +14,7 @@ void *MemoryAllocator::allocate(size_t size) {
 }
 
 void MemoryAllocator::free(void* addr) {
-    addr = (char*)addr - sizeof(size_t);
+    addr = (void*)((uint64)addr - sizeof(size_t));
     size_t deallocSize = *(size_t*)addr;
 
     FreeMem* curr = nullptr;
@@ -45,8 +45,8 @@ void MemoryAllocator::initMem()  {
 MemoryAllocator::FreeMem *MemoryAllocator::firstFit(size_t size) {
     FreeMem* curr = fMemHead;
     for(; curr && curr->next; curr = curr->next)
-        if (curr->size + size <= size) return curr;
-    if (curr && (curr->size + size <= size)) return curr;
+        if (size + sizeof(size_t) <= curr->size) return curr;
+    if (curr && (size + sizeof(size_t) <= curr->size)) return curr;
     return nullptr;
 }
 
@@ -57,7 +57,7 @@ void *MemoryAllocator::allocBlocks(MemoryAllocator::FreeMem *node, size_t size) 
 
         FreeMem* newNode = nullptr;
         if (node->size - allocSize >= MEM_BLOCK_SIZE) {
-            newNode = node + allocSize;
+            newNode = (FreeMem*)((uint64)node + (uint64)allocSize);
             newNode->size = node->size - allocSize;
             if (node->prev) node->prev->next = newNode;
             else fMemHead = newNode;
@@ -72,7 +72,7 @@ void *MemoryAllocator::allocBlocks(MemoryAllocator::FreeMem *node, size_t size) 
         }
 
         *(size_t*)node = allocSize;
-        ret = (void*)((size_t)node + sizeof(size_t));
+        ret = (void*)((uint64)node + sizeof(size_t));
 
     }
     return ret;

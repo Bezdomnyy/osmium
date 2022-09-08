@@ -18,8 +18,10 @@ void Kernel::supervisorTrapHandler() {
 
     if (scause == 0x08 || scause == 0x09) {
         uint64 sepc = RiscV::readSepc() + 4;
-        RiscV::setSip(RiscV::SSIP);
+        RiscV::clearSip(RiscV::SSIP);
         syscall_handler();
+        asm volatile ("sd a0, 80(s0)");
+        RiscV::clearSip(RiscV::SSIP);
         RiscV::writeSepc(sepc);
         return;
     }
